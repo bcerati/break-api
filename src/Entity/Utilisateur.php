@@ -26,6 +26,12 @@ class Utilisateur
      */
     private $ad_mail;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Breaks",mappedBy="utilisateur")
+     */
+    private $breaks;
+
+
     public function getId(): ?int
     {
         return $this->id;

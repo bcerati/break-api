@@ -29,15 +29,21 @@ class Breaks
     private $date_debut;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $date_fin;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateur",inversedBy="Breaks")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $id_utilisateur;
+    private $utilisateur;
 
+    public function __construct()
+    {
+        $this->date_debut = new \DateTime();
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -67,14 +73,14 @@ class Breaks
         return $this;
     }
 
-    public function getIdUtilisateur(): ?int
+    public function getUtilisateur(): ?int
     {
-        return $this->id_utilisateur;
+        return $this->utilisateur;
     }
 
-    public function setIdUtilisateur(int $id_utilisateur): self
+    public function setUtilisateur(int $utilisateur): self
     {
-        $this->id_utilisateur = $id_utilisateur;
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
