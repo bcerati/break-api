@@ -33,7 +33,7 @@ class Utilisateur
     private $breaks;
 
 
-    public function __construct
+    public function __construct()
     {
         $this->breaks = new ArrayCollection();        
     }
