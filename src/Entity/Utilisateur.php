@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ApiResource(
@@ -32,6 +33,16 @@ class Utilisateur
     private $breaks;
 
 
+    public function __construct
+    {
+        $this->breaks = new ArrayCollection();        
+    }
+
+    public function getBreaks() : Collection
+    {
+        return $this->breaks;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +57,23 @@ class Utilisateur
     {
         $this->ad_mail = $ad_mail;
 
+        return $this;
+    }
+
+    public function addBreaks(Breaks $break):self
+    {
+        if (!$this->breaks->contains($break)){
+            $this->breaks[] = $break;
+            $break->setUtilisateur($this);
+        }
+        return $this;
+    }
+
+    public function removeBreaks(Breaks $break):self
+    {
+        if ($this->breaks->contains($break)){
+            $this->breaks->removeElement($break);
+        }
         return $this;
     }
 }
