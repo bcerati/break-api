@@ -38,10 +38,10 @@ class Utilisateur
         $this->breaks = new ArrayCollection();        
     }
 
-    public function getBreaks() : Collection
+/*    public function getBreaks() : Collection
     {
         return $this->breaks;
-    }
+    }*/
 
     public function getId(): ?int
     {

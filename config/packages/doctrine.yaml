@@ -14,6 +14,7 @@ doctrine:
                 TIMEDIFF: DoctrineExtensions\Query\Mysql\TimeDiff
                 SEC_TO_TIME:  DoctrineExtensions\Query\Mysql\SecToTime
                 TIME_TO_SEC:  DoctrineExtensions\Query\Mysql\TimeToSec
+                NOW: DoctrineExtensions\Query\Mysql\Now
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true

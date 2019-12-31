@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource(
  *      collectionOperations={"get","post"},
  *      itemOperations={
- *          "get","patch"
+ *          "get"
  *      }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\BreaksRepository")
@@ -29,7 +29,7 @@ class Breaks
     private $date_debut;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $date_fin;
 
@@ -73,10 +73,10 @@ class Breaks
         return $this;
     }
 
-    public function getUtilisateur(): ?int
+    /*public function getUtilisateur(): ?int
     {
         return $this->utilisateur;
-    }
+    }*/
 
     public function setUtilisateur(int $utilisateur): self
     {

@@ -10,39 +10,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityRepository;
 
-class TempsController extends AbstractController
+class PostBreaksController extends AbstractController
 {
     /**
-     * @Route(
-     * 
-     *          name="tempstotal",
-     *          path="/api/tempstotal/{id}",
-     * 
-     * )
+     * @Route("/api/breaks", name="post_breaks",methods={"post"})
      */
-    public function __invoke($id):object
+    public function __invoke():object
     {
         $entityManager = $this->getDoctrine()->getManager();
-
-        $date=explode("-",$id);
-        $day=$date[0];$month=$date[1];$year=$date[2];
-        $date=explode("$",$id);
-        $user=$date[1];
+        $sql="INSERT INTO breaks (date_debut,utilisateur_id) VALUES (NOW(),1)";
+        $stmt=$entityManager->getConnection()->prepare($sql);
+        $result=$stmt->execute();
 
         $entities = $entityManager->getRepository(Breaks::class)->createQueryBuilder('o')
         ->select('SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(o.date_fin,o.date_debut))))')
-        ->where('DAY(o.date_debut)=?1')
-        ->andwhere('MONTH(o.date_debut)=?2')
-        ->andwhere('YEAR(o.date_debut)=?3')
-        ->andwhere('o.utilisateur=?4')
+        ->where('DAY(o.date_debut)=DAY(NOW())')
+        ->andwhere('MONTH(o.date_debut)=MONTH(NOW())')
+        ->andwhere('YEAR(o.date_debut)=YEAR(NOW())')
+        ->andwhere('o.utilisateur=1')
         ->andwhere('o.date_fin > 0')
-        ->setParameter(1,$day)
-        ->setParameter(2,$month)
-        ->setParameter(3,$year)
-        ->setParameter(4,$user)
         ->getQuery()
         ->getArrayResult();
         return new Jsonresponse($entities);   
     }
-
 }
