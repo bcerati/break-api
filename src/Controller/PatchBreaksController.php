@@ -16,7 +16,7 @@ class PatchBreaksController extends AbstractController
     /**
      * @Route("/api/breaks", name="patch_breaks",methods={"patch"})
      */
-    public function __invoke():object
+    public function __invoke():Response
     {
         $entityManager = $this->getDoctrine()->getManager();
 

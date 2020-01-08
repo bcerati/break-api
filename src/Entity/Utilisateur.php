@@ -7,10 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ApiResource(
- *      itemOperations={
- *          "get"
- *      })
  * @ORM\Entity(repositoryClass="App\Repository\UtilisateurRepository")
  */
 class Utilisateur
@@ -38,10 +34,10 @@ class Utilisateur
         $this->breaks = new ArrayCollection();        
     }
 
-/*    public function getBreaks() : Collection
+    public function getBreaks() : Collection
     {
         return $this->breaks;
-    }*/
+    }
 
     public function getId(): ?int
     {

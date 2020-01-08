@@ -6,6 +6,7 @@ use DateTime;
 use App\Entity\Breaks;
 use App\Entity\Utilisateur;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityRepository;
@@ -15,7 +16,7 @@ class PostBreaksController extends AbstractController
     /**
      * @Route("/api/breaks", name="post_breaks",methods={"post"})
      */
-    public function __invoke():object
+    public function __invoke():Response
     {
         $entityManager = $this->getDoctrine()->getManager();
 

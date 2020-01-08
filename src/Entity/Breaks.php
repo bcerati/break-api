@@ -6,12 +6,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource(
- *      collectionOperations={"get","post"},
- *      itemOperations={
- *          "get"
- *      }
- * )
  * @ORM\Entity(repositoryClass="App\Repository\BreaksRepository")
  */
 class Breaks
@@ -73,12 +67,12 @@ class Breaks
         return $this;
     }
 
-    /*public function getUtilisateur(): ?int
+    public function getUtilisateur(): ?Utilisateur
     {
         return $this->utilisateur;
-    }*/
+    }
 
-    public function setUtilisateur(int $utilisateur): self
+    public function setUtilisateur (Utilisateur $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
 
