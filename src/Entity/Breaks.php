@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,10 +28,10 @@ class Breaks
     private $date_fin;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateur",inversedBy="Breaks")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="breaks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $utilisateur;
+    private $user;
 
     public function __construct()
     {
@@ -67,14 +67,14 @@ class Breaks
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
+    public function getUser(): ?User
     {
-        return $this->utilisateur;
+        return $this->user;
     }
 
-    public function setUtilisateur (Utilisateur $utilisateur): self
+    public function setUser(User $user): self
     {
-        $this->utilisateur = $utilisateur;
+        $this->user = $user;
 
         return $this;
     }

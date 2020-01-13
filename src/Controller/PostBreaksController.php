@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\Breaks;
-use App\Entity\Utilisateur;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,20 +24,20 @@ class PostBreaksController extends AbstractController
         ->where('DAY(o.date_debut)=DAY(NOW())')
         ->andwhere('MONTH(o.date_debut)=MONTH(NOW())')
         ->andwhere('YEAR(o.date_debut)=YEAR(NOW())')
-        ->andwhere('o.utilisateur=1')
+        ->andwhere('o.user=1')
         ->andwhere('o.date_fin IS NULL')
         ->getQuery()
         ->getArrayResult();
 
         if($entities != null)
         {
-            $sql="UPDATE breaks SET date_fin=NOW() WHERE utilisateur_id=1 AND date_fin IS NULL";
+            $sql="UPDATE breaks SET date_fin=NOW() WHERE user_id=1 AND date_fin IS NULL";
             $stmt=$entityManager->getConnection()->prepare($sql);
             $result=$stmt->execute();
         }
 
 
-        $sql="INSERT INTO breaks (date_debut,utilisateur_id) VALUES (NOW(),1)";
+        $sql="INSERT INTO breaks (date_debut,user_id) VALUES (NOW(),1)";
         $stmt=$entityManager->getConnection()->prepare($sql);
         $result=$stmt->execute();
 
@@ -46,7 +46,7 @@ class PostBreaksController extends AbstractController
         ->where('DAY(o.date_debut)=DAY(NOW())')
         ->andwhere('MONTH(o.date_debut)=MONTH(NOW())')
         ->andwhere('YEAR(o.date_debut)=YEAR(NOW())')
-        ->andwhere('o.utilisateur=1')
+        ->andwhere('o.user=1')
         ->andwhere('o.date_fin > 0')
         ->getQuery()
         ->getArrayResult();

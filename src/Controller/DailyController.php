@@ -10,13 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityRepository;
 
-class TempsController extends AbstractController
+class DailyController extends AbstractController
 {
     /**
      * @Route(
      * 
-     *          name="tempstotal",
-     *          path="/api/tempstotal",
+     *          name="daily",
+     *          path="/api/daily",
      * 
      * )
      */
@@ -25,7 +25,7 @@ class TempsController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entities = $entityManager->getRepository(Breaks::class)->createQueryBuilder('o')
         ->select('SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(o.date_fin,o.date_debut))))')
-        ->where('DAY(o.date_debut)>DAY(NOW())-5')
+        ->where('DAY(o.date_debut)=DAY(NOW())')
         ->andwhere('MONTH(o.date_debut)=MONTH(NOW())')
         ->andwhere('YEAR(o.date_debut)=YEAR(NOW())')
         ->andwhere('o.user=1')
@@ -36,3 +36,4 @@ class TempsController extends AbstractController
     }
 
 }
+
