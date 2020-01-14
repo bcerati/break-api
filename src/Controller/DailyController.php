@@ -21,15 +21,17 @@ class DailyController extends AbstractController
      * )
      */
     public function __invoke():object
-    {
+    {  
+        $user = $this->get('security.token_storage')->getToken()->getUser()->getId();
         $entityManager = $this->getDoctrine()->getManager();
         $entities = $entityManager->getRepository(Breaks::class)->createQueryBuilder('o')
         ->select('SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(o.date_fin,o.date_debut))))')
         ->where('DAY(o.date_debut)=DAY(NOW())')
         ->andwhere('MONTH(o.date_debut)=MONTH(NOW())')
         ->andwhere('YEAR(o.date_debut)=YEAR(NOW())')
-        ->andwhere('o.user=1')
+        ->andwhere('o.user=?1')
         ->andwhere('o.date_fin > 0')
+        ->setParameter(1,$user)
         ->getQuery()
         ->getArrayResult();
         return new Jsonresponse($entities);   

@@ -19,13 +19,14 @@ class PatchBreaksController extends AbstractController
     public function __invoke():Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-
+        $user = $this->get('security.token_storage')->getToken()->getUser()->getId();
         $entities = $entityManager->getRepository(Breaks::class)->createQueryBuilder('o')
-        ->where('DAY(o.date_debut)>DAY(NOW())')
-        ->andwhere('MONTH(o.date_debut)=MONTH(NOW())')
-        ->andwhere('YEAR(o.date_debut)=YEAR(NOW())')
-        ->andwhere('o.user=1')
+        ->where('DAY(o.date_debut)<=DAY(NOW())')
+        ->andwhere('MONTH(o.date_debut)<=MONTH(NOW())')
+        ->andwhere('YEAR(o.date_debut)<=YEAR(NOW())')
+        ->andwhere('o.user=?1')
         ->andwhere('o.date_fin IS NULL')
+        ->setParameter(1,$user)
         ->getQuery()
         ->getArrayResult();
 
