@@ -78,4 +78,13 @@ class Breaks
 
         return $this;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'date_debut' => $this->getDateDebut(),
+            'date_fin' => $this->getDateFin(),
+        ];
+    }
 }

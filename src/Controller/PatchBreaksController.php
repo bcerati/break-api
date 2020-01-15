@@ -10,41 +10,42 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityRepository;
+use App\Repository\BreaksRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class PatchBreaksController extends AbstractController
 {
+     /** @var EntityManagerInterface */
+     private $em;
+
+     /** @var BreaksRepository */
+     private $breaksRepository;
+ 
+     public function __construct(EntityManagerInterface $em, BreaksRepository $breaksRepository)
+     {
+         $this->em = $em;
+         $this->breaksRepository = $breaksRepository;
+     }
     /**
      * @Route("/api/breaks", name="patch_breaks",methods={"patch"})
      */
     public function __invoke():Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = $this->get('security.token_storage')->getToken()->getUser()->getId();
-        $entities = $entityManager->getRepository(Breaks::class)->createQueryBuilder('o')
-        ->where('DAY(o.date_debut)<=DAY(NOW())')
-        ->andwhere('MONTH(o.date_debut)<=MONTH(NOW())')
-        ->andwhere('YEAR(o.date_debut)<=YEAR(NOW())')
-        ->andwhere('o.user=?1')
-        ->andwhere('o.date_fin IS NULL')
-        ->setParameter(1,$user)
-        ->getQuery()
-        ->getArrayResult();
-
-        if($entities != null)
+        $user = $this->getUser();
+        $breaks = $this->breaksRepository->findTodayBreaksForUser($user);
+        if ($breaks === null)
         {
-            $sql="UPDATE breaks SET date_fin=NOW() WHERE user_id=1 AND date_fin IS NULL";
-            $stmt=$entityManager->getConnection()->prepare($sql);
-            $result=$stmt->execute();
-
-            $response = new Response();
-            $response->setStatusCode(200);
-            return $response;
+            return $this->json([
+                'success' => false,
+                'message' => 'The break doesn\'t exists',
+            ], 400);
         }
-        else
-        {
-            $response = new Response();
-            $response->setStatusCode(500);
-            return $response;
-        }  
+        $breaks->setDateFin(new \DateTime());
+        $this->em->flush();
+
+        return $this->json([
+            'success' => true,
+            'breaks' => $breaks->toArray(),
+        ]);
     }
 }

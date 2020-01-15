@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Breaks;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -17,6 +18,20 @@ class BreaksRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Breaks::class);
+    }
+
+    public function findTodayBreaksForUser(User $user): ?Breaks
+    {
+        return $this->createQueryBuilder('b')
+            ->where('DAY(b.date_debut) = DAY(NOW())')
+            ->andwhere('MONTH(b.date_debut) = MONTH(NOW())')
+            ->andwhere('YEAR(b.date_debut) = YEAR(NOW())')
+            ->andwhere('b.user = :user')
+            ->andwhere('b.date_fin IS NULL')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
     // /**
