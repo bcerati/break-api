@@ -32,13 +32,13 @@ class PostBreaksController extends AbstractController
 
         if($entities != null)
         {
-            $sql="UPDATE breaks SET date_fin=NOW() WHERE user_id=1 AND date_fin IS NULL";
+            $sql="UPDATE breaks SET date_fin=NOW() WHERE user_id=$user AND date_fin IS NULL";
             $stmt=$entityManager->getConnection()->prepare($sql);
             $result=$stmt->execute();
         }
 
 
-        $sql="INSERT INTO breaks (date_debut,user_id) VALUES (NOW(),1)";
+        $sql="INSERT INTO breaks (date_debut,user_id) VALUES (NOW(),$user)";
         $stmt=$entityManager->getConnection()->prepare($sql);
         $result=$stmt->execute();
 
