@@ -14,16 +14,16 @@ class DailyManagerController extends AbstractController
 {
     /**
      * @Route(
-     * 
+     *
      *          name="tempstotalmanager",
      *          path="/api/tempstotalmanager",
-     * 
+     *
      * )
      */
     public function __invoke():object
     {
         if (!$this->isGranted('ROLE_MANAGER')) {
-            throw new JsonResponse([], 403)
+            return new JsonResponse([], 403);
         }
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -36,6 +36,6 @@ class DailyManagerController extends AbstractController
         ->getQuery()
         ->getArrayResult();
 
-        return new Jsonresponse($entities);   
+        return new Jsonresponse($entities);
     }
 }
