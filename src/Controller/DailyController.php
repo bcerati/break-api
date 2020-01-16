@@ -22,7 +22,7 @@ class DailyController extends AbstractController
      */
     public function __invoke():object
     {  
-        $user = $this->get('security.token_storage')->getToken()->getUser()->getId();
+        $user = $this->getUser()->getId();
         $entityManager = $this->getDoctrine()->getManager();
         $entities = $entityManager->getRepository(Breaks::class)->createQueryBuilder('o')
         ->select('SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(o.date_fin,o.date_debut))))')

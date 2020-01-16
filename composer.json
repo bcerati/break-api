@@ -8,6 +8,7 @@
         "beberlei/doctrineextensions": "^1.2",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.0",
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^2.0",
         "doctrine/orm": "^2.5.11",
         "symfony/apache-pack": "^1.0",

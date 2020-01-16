@@ -23,7 +23,7 @@ class TempsController extends AbstractController
     public function __invoke():object
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $user = $this->get('security.token_storage')->getToken()->getUser()->getId();
+        $user = $this->getUser()->getId();
         $entities = $entityManager->getRepository(Breaks::class)->createQueryBuilder('o')
         ->select('SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(o.date_fin,o.date_debut))))')
         ->where('DAY(o.date_debut)>DAY(NOW())-5')
