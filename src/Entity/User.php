@@ -36,7 +36,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Breaks",mappedBy="users")
+     * @ORM\OneToMany(targetEntity="App\Entity\Breaks",mappedBy="user")
      */
     private $breaks;
 
