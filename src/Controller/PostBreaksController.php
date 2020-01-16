@@ -28,7 +28,7 @@ class PostBreaksController extends AbstractController
     }
 
     /**
-     * @Route("/api/breaks", name="post_breaks",methods={"post"})
+     * @Route("/api/breaks", name="post_breaks", methods={"post"})
      */
     public function __invoke():Response
     {
@@ -46,7 +46,7 @@ class PostBreaksController extends AbstractController
 
         $this->em->persist($breaks);
         $this->em->flush();
-        
+
         return $this->json([
             'success' => true,
             'breaks' => $breaks->toArray(),
