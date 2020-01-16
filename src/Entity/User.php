@@ -42,7 +42,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->breaks = new ArrayCollection();        
+        $this->breaks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,5 +143,14 @@ class User implements UserInterface
             $this->breaks->removeElement($break);
         }
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->getEmail(),
+            'roles' => $this->getRoles(),
+        ];
     }
 }
