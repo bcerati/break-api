@@ -14,28 +14,24 @@ class DailyManagerController extends AbstractController
 {
     /**
      * @Route(
-     *
-     *          name="tempstotalmanager",
+     * 
+     *          name="tempsmanager",
      *          path="/api/tempstotalmanager",
-     *
+     * 
      * )
      */
     public function __invoke():object
-    {
-        if (!$this->isGranted('ROLE_MANAGER')) {
-            return new JsonResponse([], 403);
-        }
-
+    {  
         $entityManager = $this->getDoctrine()->getManager();
-        $entities = $entityManager->getRepository(User::class)->createQueryBuilder('u')
-            ->addSelect('b')
-            ->leftJoin('u.breaks','b')
-        ->where('DAY(b.date_debut) = DAY(NOW())')
-        ->andwhere('MONTH(b.date_debut) = MONTH(NOW())')
-        ->andwhere('YEAR(b.date_debut) = YEAR(NOW())')
+        $entities = $entityManager->getRepository(Breaks::class)->createQueryBuilder('o')
+        ->select('IDENTITY(o.user) as user_id,o.date_debut,o.date_fin')
+        ->where('DAY(o.date_debut)=DAY(NOW())')
+        ->andwhere('MONTH(o.date_debut)=MONTH(NOW())')
+        ->andwhere('YEAR(o.date_debut)=YEAR(NOW())')
+        ->andwhere('o.date_fin > 0')
         ->getQuery()
         ->getArrayResult();
-
-        return new Jsonresponse($entities);
+        return new Jsonresponse($entities);   
     }
+
 }
